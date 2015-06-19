@@ -1,0 +1,34 @@
+<% include header.html %>
+
+<h1>Employee Data</h1>
+<a href="/systemInfo/employee/create">Add Employee</a>
+<table>
+
+    <tr>
+        <th>Employee Id</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email Id</th>
+        <th>Date of Birth</th>
+        <th>Date of Joining</th>
+        <th>Phone Num</th>
+
+    </tr>
+    <% employees.forEach(function(employee){ %>
+    <tr>
+        <td><a href="/systemInfo/employee/<%= employee.empid %>"><%= employee.empid %></a></td>
+        <td><%= employee.firstName %></td>
+        <td><%= employee.lastName %></td>
+        <td><%= employee.emailId %></td>
+        <td><%= employee.dob %></td>
+        <td><%= employee.doj %></td>
+        <td><%= employee.phoneNum %></td>
+
+    </tr>
+    <% }) %>
+</table>
+<script>
+
+</script>
+
+<% include footer.html %>

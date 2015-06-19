@@ -1,0 +1,99 @@
+<% include header.html %>
+
+<h1>Employee Data</h1>
+<a href="/systemInfo/employees">View Employees</a>
+<form method="post" action="" id="the-form">
+<table>
+
+    <tr>
+        <td>Employee Id</td>
+        <td><%= employee[0].empid %></td>
+    </tr>
+    <th>First Name</th>
+    <td><input type="text" name="firstName" value="<%= employee[0].firstName %>"/></td>
+    </tr>
+    <tr>
+        <th>Last Name</th>
+        <td><input type="text" name="lastName" value="<%= employee[0].lastName %>"/></td>
+    </tr>
+    <tr>
+        <th>Email Id</th>
+        <td><input type="text" name="emailId" value="<%= employee[0].emailId %>"/></td>
+    </tr>
+    <tr>
+        <td>Date of Birth</td>
+        <td><input type="text" id="dob" name="dob" value="<%= employee[0].dob %>"/></td>
+    </tr>
+    <tr>
+        <td>Date of Joining</td>
+        <td><input type="text" id="doj" name="doj" value="<%= employee[0].doj %>"/></td>
+    </tr>
+    <tr>
+        <td>Phone Num</td>
+        <td><input type="text" id="phoneNum" name="phoneNum" value="<%= employee[0].phoneNum %>"/></td>
+    </tr>
+    <tr>
+        <td><input type="button" value="Save Employee" onclick="updateEmployee(<%= employee[0].empid %>)"></td>
+        <td><input type="button" onclick="deleteUser(<%= employee[0].empid %>)" value="Delete Employee"></td>
+
+    </tr>
+
+</table>
+</form>
+<script>
+    function deleteUser(emp_id){
+
+        $.ajax({
+            url:"/systemInfo/employee/"+emp_id,
+            type: 'DELETE',
+            success: function(res) {
+
+                window.location = "/systemInfo/employees";
+                return false;
+            },
+            error:function(xhr, status, error){
+
+                console.log(xhr.responseText);
+                alert("Error deleting");
+                return false;
+            }
+        });
+    }
+
+
+    function updateEmployee(emp_id){
+        console.log("Employee Id:" + emp_id);
+        var create = true;
+        var url = '/systemInfo/employee', type = 'post';
+        if (emp_id!=undefined) {
+            url+='/'+emp_id;
+            type='put';
+            create = false;
+        }
+
+        console.log("url="+url+"\t type=" + type);
+        $.ajax({
+
+            url:url,
+            type:type,
+            data:$("#the-form").serialize(),
+            success:function(res){
+                if (create){
+                    window.location = "/systemInfo/employees";
+                } else {
+                    window.location.reload();
+                }
+                return false;
+            },
+            error:function(status, error){
+
+                console.log(error);
+                return false;
+            }
+
+        });
+    }
+
+
+</script>
+<% include footer.html %>
